@@ -117,20 +117,35 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
      * @return the root of criteria chain
      */
     protected CriteriaImpl getRootCriteriaImpl() {
-        Criteria parent = criteria;
-        
-        while (parent instanceof AbstractCriteriaDecorator) {
-            parent = ((AbstractCriteriaDecorator) parent).getRootCriteriaImpl();
+        if (isRootCriteria()) {
+            return (CriteriaImpl) criteria;
+            
+        } else {
+            Criteria parent = criteria;
+
+            while (parent instanceof AbstractCriteriaDecorator) {
+                parent = ((AbstractCriteriaDecorator) parent).getRootCriteriaImpl();
+            }
+            while (parent instanceof CriteriaImpl.Subcriteria) {
+                parent = ((CriteriaImpl.Subcriteria) parent).getParent();
+            }
+
+            if (! (parent instanceof CriteriaImpl)) {
+                throw new RuntimeException("Decorated criteria must be instance of "
+                    + "CriteriaImpl, Subcriteria or AbstractCriteriaDecorator");
+            }
+            return (CriteriaImpl) parent;
         }
-        while (parent instanceof CriteriaImpl.Subcriteria) {
-            parent = ((CriteriaImpl.Subcriteria) parent).getParent();
-        }
-        
-        if (! (parent instanceof CriteriaImpl)) {
-            throw new RuntimeException("Decorated criteria have to be instance of "
-                + "CriteriaImpl, Subcriteria or AbstractCriteriaDecorator");
-        }
-        return (CriteriaImpl) parent;
+    }
+    
+    /**
+     * Is decorated criteria the root of criteria chain (i.e. instance of the
+     * {@link CriteriaImpl}), or a subcriteria?
+     * 
+     * @return <tt>true</tt> if decorates root criteria, <tt>false</tt> otherwise
+     */
+    protected boolean isRootCriteria() {
+        return criteria instanceof CriteriaImpl;
     }
     
     
