@@ -17,14 +17,7 @@
 package cz.jirutka.commons.hibernate.criteria;
 
 import java.util.List;
-import org.hibernate.CacheMode;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.FlushMode;
-import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
-import org.hibernate.ScrollableResults;
-import org.hibernate.ScrollMode;
+import org.hibernate.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projection;
@@ -35,7 +28,17 @@ import org.hibernate.transform.ResultTransformer;
  * Abstract decorator for Hibernate {@linkplain Criteria} which supports 
  * generic methods chaining.
  * 
+ * <p>The {@linkplain Criteria} cannot be simply decorated without breaking
+ * ability to use method chaining (fluent interface). Fortunately it's partially
+ * solvable with generics. All overrided methods with the return type 
+ * <tt>Criteria</tt> (for method chaining) uses generic type 
+ * {@code <DECORATOR extends Criteria>} instead, so you can specify their return
+ * type for method chaining in your concrete decorator.</p>
+ * 
  * @author Jakub Jirutka <jakub@jirutka.cz>
+ * @version 2012-06-11
+ * @since 1.0
+ * 
  * @param <DECORATOR> the concrete decorator class (for method chaining)
  */
 public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> implements Criteria {
@@ -53,7 +56,7 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
     
     
     
-    ///////////////  ABSTRACT METHODS  ///////////////
+    ///////////////  Abstract methods  ///////////////
     
     /**
      * Decorates the given <tt>Criteria</tt> with <tt>this</tt> decorator. This
@@ -75,7 +78,25 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
     
     
     
-    ///////////////  TEMPLATE METHODS  ///////////////
+    ///////////////  Template methods  ///////////////
+    
+    /**
+     * This is called <i>before</i> actually delegating call to one of the 
+     * Criteria methods that return result. Template implementation is doing 
+     * nothing but you can override it and use as you want.
+     */
+    protected void beforeExecuted() {
+        // may be overriden
+    }
+    
+    /**
+     * This is called <i>after</i> actually delegating call to one of the 
+     * Criteria methods that return result. Template implementation is doing 
+     * nothing but you can override it and use as you want.
+     */
+    protected void afterExecuted() {
+        // may be overriden
+    }
     
     /**
      * The root entity which is this criteria chain build on.
@@ -114,7 +135,7 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
     
     
     
-    ///////////////  DELEGATED METHODS  ///////////////
+    ///////////////  Delegated methods  ///////////////
     
     @Override
     public DECORATOR add(Criterion criterion) {
@@ -183,12 +204,16 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
 
     @Override
     public ScrollableResults scroll(ScrollMode scrollMode) throws HibernateException {
-        return criteria.scroll(scrollMode);
+        beforeExecuted();
+        try { return criteria.scroll(scrollMode); }
+        finally { afterExecuted(); }
     }
 
     @Override
     public ScrollableResults scroll() throws HibernateException {
-        return criteria.scroll();
+        beforeExecuted();
+        try { return criteria.scroll(); }
+        finally { afterExecuted(); }
     }
 
     @Override
@@ -233,7 +258,9 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
     
     @Override
     public List list() throws HibernateException {
-        return criteria.list();
+        beforeExecuted();
+        try { return criteria.list(); } 
+        finally { afterExecuted(); }
     }
     
     @Override
@@ -273,7 +300,9 @@ public abstract class AbstractCriteriaDecorator <DECORATOR extends Criteria> imp
     
     @Override
     public Object uniqueResult() throws HibernateException {
-        return criteria.uniqueResult();
+        beforeExecuted();
+        try { return criteria.uniqueResult(); } 
+        finally { afterExecuted(); }
     }
     
 }
