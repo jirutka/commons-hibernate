@@ -5,7 +5,7 @@
 
     <groupId>cz.jirutka.commons</groupId>
     <artifactId>commons-hibernate</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Commons-hibernate</name>
@@ -16,8 +16,8 @@
         <developer>
             <name>Jakub Jirutka</name>
             <email>jakub@jirutka.cz</email>
-            <organization>CVUT FIT</organization>
-            <organizationUrl>http://fit.cvut.cz</organizationUrl>
+            <organization>CVUT</organization>
+            <organizationUrl>http://www.cvut.cz</organizationUrl>
         </developer>
     </developers>
     
@@ -32,6 +32,12 @@
     <!--//////////////////// REPOSITORIES ////////////////////-->
   
     <repositories>
+        
+        <repository>
+            <id>jirutka.cz</id>
+            <name>My repository</name>
+            <url>http://repos.jirutka.cz/maven/</url>
+        </repository>
         
         <!-- Provides Hibernate -->
         <repository>
@@ -56,11 +62,17 @@
         <!-- Compile scope -->
         
         <dependency>
+            <groupId>cz.jirutka.commons</groupId>
+            <artifactId>commons-persistence</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>3.6.3.Final</version>
         </dependency>
-        
+      
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

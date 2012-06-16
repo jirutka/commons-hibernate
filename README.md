@@ -5,7 +5,10 @@ My collection of reusable Java classes for Hibernate.
 
 ## Content
 
-- Abstract decorator for Hibernate (with generic method chaining).
+- Implementation of [GenericDAO](http://github.com/jirutka/commons-persistence/) for Hibernate
+- Abstract decorator for _Criteria_ (with generic method chaining)
+- Extended decorator for _Criteria_ that implements the Visitor pattern for easy extensibility
+- HibernateUtils
 
 
 ## Download
@@ -26,16 +29,17 @@ If you’re using Maven2, simply add these lines to your _pom.xml_:
         <dependency>
             <groupId>cz.jirutka.commons</groupId>
             <artifactId>commons-hibernate</artifactId>
-            <version>1.0</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
 ### Manual download
 
-Otherwise, download jar file from [here](https://github.com/downloads/jirutka/commons-hibernate/commons-hibernate-1.0.jar).
+Otherwise, download jar file from [here](https://github.com/downloads/jirutka/commons-hibernate/commons-hibernate-1.0-SNAPSHOT.jar).
 
 Compile dependencies:
 
+* [commons-persistence](http://github.com/jirutka/commons-persistence/downloads)
 * [hibernate-core](http://www.hibernate.org/downloads.html)
 * [slf4j-api](http://www.slf4j.org/download.html)
 
