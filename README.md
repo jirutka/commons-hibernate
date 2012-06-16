@@ -8,6 +8,7 @@ My collection of reusable Java classes for Hibernate.
 - Implementation of [GenericDAO](http://github.com/jirutka/commons-persistence/) for Hibernate
 - Abstract decorator for _Criteria_ (with generic method chaining)
 - Extended decorator for _Criteria_ that implements the Visitor pattern for easy extensibility
+- Embeddable class for composite identifier of two Long types
 - HibernateUtils
 
 
