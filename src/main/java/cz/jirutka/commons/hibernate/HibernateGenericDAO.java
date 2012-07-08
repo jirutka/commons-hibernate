@@ -38,10 +38,12 @@ import org.hibernate.type.Type;
  * Hibernate implementation of the {@link GenericDAO} interface.
  *
  * @author Jakub Jirutka <jakub@jirutka.cz>
- * @version 2012-06-13
+ * @version 2012-07-09
  * @since 1.1
  */
 public class HibernateGenericDAO implements GenericDAO {
+
+    public static final String CACHE_REGION_NATURAL_ID = "org.hibernate.cache.region.NaturalIdentifiersCache";
 
     protected final SessionFactory sessionFactory;
     
@@ -147,6 +149,7 @@ public class HibernateGenericDAO implements GenericDAO {
                 .add(Restrictions.naturalId()
                     .set(property, value))
                 .setCacheable(true)
+                .setCacheRegion(CACHE_REGION_NATURAL_ID)
                 .uniqueResult();
 
         if (entity == null) {
