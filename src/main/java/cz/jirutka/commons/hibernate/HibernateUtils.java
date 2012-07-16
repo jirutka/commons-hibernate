@@ -81,5 +81,22 @@ public class HibernateUtils {
         }
         return naturalNames;
     }
+
+    /**
+     * If the given object is a {@linkplain HibernateProxy proxy}, then return
+     * the underlying persistent object (initializing if necessary). Otherwise
+     * just return the given object.
+     *
+     * @param entity persistent instance or its proxy object
+     * @return persistent instance
+     */
+    public static <E> E deproxy(E entity) {
+        if (entity instanceof HibernateProxy) {
+            HibernateProxy proxy = (HibernateProxy) entity;
+            return (E) proxy.getHibernateLazyInitializer().getImplementation();
+        } else {
+            return entity;
+        }
+    }
     
 }
