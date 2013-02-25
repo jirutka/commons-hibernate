@@ -18,37 +18,28 @@ My collection of reusable Java classes for Hibernate.
  
 If you’re using Maven2, simply add these lines to your _pom.xml_:
 
-    <repositories>
-        <repository>
-            <id>jirutka.cz</id>
-            <name>Jirutka’s repository</name>
-            <url>http://repos.jirutka.cz/maven/</url>
-        </repository>
-    </repositories>
+```xml
+<dependency>
+    <groupId>cz.jirutka.commons</groupId>
+    <artifactId>commons-hibernate</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
 
-    <dependencies>
-        <dependency>
-            <groupId>cz.jirutka.commons</groupId>
-            <artifactId>commons-hibernate</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+<repository>
+    <id>cvut-local-repos</id>
+    <name>CVUT Repository Local</name>
+    <url>http://repository.fit.cvut.cz/maven/local-repos/</url>
+</repository>
+```
 
 ### Manual download
 
 Otherwise, download jar file from [here](https://github.com/downloads/jirutka/commons-hibernate/commons-hibernate-1.0-SNAPSHOT.jar).
 
-Compile dependencies:
-
+Dependencies:
 * [commons-persistence](http://github.com/jirutka/commons-persistence/downloads)
 * [hibernate-core](http://www.hibernate.org/downloads.html)
 * [slf4j-api](http://www.slf4j.org/download.html)
-
-Test dependencies:
-
-* [junit](https://github.com/KentBeck/junit/downloads)
-* [hsqldb](http://sourceforge.net/projects/hsqldb/files/hsqldb/)
-* [hibernate-entitymanager](http://www.hibernate.org/downloads.html)
 
 
 ## License
